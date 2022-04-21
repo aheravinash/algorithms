@@ -8,9 +8,10 @@ public class Primes{
 		s.close();
 		ArrayList<Integer> primes = getAllPrimesUptoN(N);
 		System.out.println(primes.size());
+		printArrayList(primes);
 	}
 	/* Functions */
-	/* function getAllPrimesUptoN returns all prime numbers upto N using Sieve Of Eratosthenes */
+	/* function getAllPrimesUptoN : returns all prime numbers upto N using Sieve Of Eratosthenes */
 	public static ArrayList<Integer> getAllPrimesUptoN(int N){
 		if(N < 2) return new ArrayList<Integer>();
 		N++; 	// incrementing N so that we can include N if it is prime
@@ -30,5 +31,14 @@ public class Primes{
 			if( ! notPrimes[i]) primes.add(i);
 		}
 		return primes;
+	}
+	/* function printArrayList : prints an ArrayList of Integers onto screen */
+	public static void printArrayList(ArrayList<Integer> A){
+		int n = A.size();
+		System.out.println("*** Printing ArrayList ***");
+		for(int i = 0; i < n; i++){
+			System.out.format("%d ", A.get(i));
+		}
+		System.out.println("***");
 	}
 }
