@@ -1,6 +1,10 @@
 import java.util.Scanner;
 public class SQRT{
 	// find square root of an integer using Newton Raphson method
+    // find the solution of equation x^2 - n = 0
+    // f(xn) = xn^2 - n; f'(xn) = 2xn
+    // Newton Raphson scheme:
+    // xn+1 = xn - f(xn)/f'(xn)
 	public static void main(String[] args){
 		Scanner s = new Scanner(System.in);
 		int n = s.nextInt();
