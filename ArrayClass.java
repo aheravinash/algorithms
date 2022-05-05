@@ -14,15 +14,71 @@ public class ArrayClass{
        /* Arrays.sort(A);
         printArray(A);
        */
-        int ans = pairSum(A, m);
+        int ans = trippletSum(A, m);
         System.out.println(ans);
     }
     /* Functions */
+    /* function trippletSum : find number of tripplets in an array that sum to k */
+    public static int trippletSum(int[] A, int k){
+        if(A.length < 3) return 0;
+        HashMap<Integer, Integer> map   = new HashMap<>(A.length);
+        ArrayList<Integer> keys         = new ArrayList<>(A.length);
+        createFrequencyMapAndSortedListOfKeys(A, map, keys);
+        int lo          = 0,
+            hi          = keys.size() - 1,
+            tripplets   = 0;
+        while(lo < hi){
+            int lokey   = keys.get(lo++).intValue(),
+                freq    = map.get(lokey).intValue();
+            if(3 * lokey == k){
+                tripplets   += freq * (freq - 1) * (freq - 2) / 6;
+            }
+            else{
+                tripplets   += freq * pairSumHelperToTrippletSum(map, keys, lo, hi, k - lokey);
+                int newKey  = k - 2 * lokey;
+                if(newKey > lokey && map.containsKey(newKey)){
+                    tripplets += (freq * (freq - 1) / 2) * map.get(newKey).intValue();
+                }
+            }
+        }
+        int hikey = keys.get(hi).intValue();
+        if(3 * hikey == k){
+            int freq = map.get(hikey).intValue();
+            tripplets += freq * (freq - 1) * (freq - 2) / 6;
+        }
+        return tripplets;
+    }
+    /* function pairSumHelperToTrippletSum */
+    public static int pairSumHelperToTrippletSum(HashMap<Integer, Integer> map, ArrayList<Integer> keys, int lo, int hi, int k){
+        int lokey   = keys.get(lo).intValue(),
+            hikey   = keys.get(hi).intValue(),
+            sum     = lokey + hikey,
+            pairs   = 0;
+        while(hi > lo){
+            if(sum == k){
+                pairs   += map.get(lokey).intValue() * map.get(hikey).intValue();
+                lokey   = keys.get(++lo).intValue();
+                hikey   = keys.get(--hi).intValue();
+            }
+            else if(sum < k){
+                lokey   = keys.get(++lo).intValue();
+            }
+            else{
+                hikey   = keys.get(--hi).intValue();
+            }
+            sum         = lokey + hikey;
+        }
+        if(hi == lo && sum == k){
+            int freq    = map.get(lokey).intValue();
+            pairs       += freq * (freq - 1) / 2;
+        }
+        return pairs;
+    }
     /* function pairSum : find number of pairs in an array that sum to k */
     public static int pairSum(int[] A, int k){
         if(A.length < 2) return 0;
-        HashMap<Integer, Integer> map = new HashMap<>(A.length);
-        ArrayList<Integer> keys = new ArrayList<>(A.length);
+        HashMap<Integer, Integer> map   = new HashMap<>(A.length);
+        ArrayList<Integer> keys         = new ArrayList<>(A.length);
         createFrequencyMapAndSortedListOfKeys(A, map, keys);
         int lo      = 0,
             hi      = keys.size() - 1,
@@ -35,16 +91,14 @@ public class ArrayClass{
                 pairs   += map.get(lokey).intValue() * map.get(hikey).intValue();
                 lokey   = keys.get(++lo).intValue();
                 hikey   = keys.get(--hi).intValue();
-                sum     = lokey + hikey;
             }
             else if(sum < k){
                 lokey   = keys.get(++lo).intValue();
-                sum     = lokey + hikey;
             }
             else{
                 hikey   = keys.get(--hi).intValue();
-                sum     = lokey + hikey;
             }
+            sum         = lokey + hikey;
         }
         if(hi == lo && sum == k){
             int freq    = map.get(lokey).intValue();
@@ -68,8 +122,8 @@ public class ArrayClass{
     }
     /* function arrayUnion : find union of two arrays */
     public static ArrayList<Integer> arrayUnion(int[] A, int[] B){
-        HashMap<Integer, Integer> map = new HashMap<>(A.length + B.length);
-        ArrayList<Integer> union = new ArrayList<>(A.length + B.length);
+        HashMap<Integer, Integer> map   = new HashMap<>(A.length + B.length);
+        ArrayList<Integer> union        = new ArrayList<>(A.length + B.length);
         addUniqueElemetsToUnion(A, map, union);
         addUniqueElemetsToUnion(B, map, union);
         return union;
