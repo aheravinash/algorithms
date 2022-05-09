@@ -75,7 +75,8 @@ public class ArrayClass{
         return pairs;
     }
     /* function pairSum : find number of pairs in an array that sum to k */
-    public static int pairSum(int[] A, int k){
+    /* function pairSum3 : Create frequency map and sorted list of keys; O(nlogn) time in worst case; O(n) time in best case */
+    public static int pairSum3(int[] A, int k){
         if(A.length < 2) return 0;
         HashMap<Integer, Integer> map   = new HashMap<>(A.length);
         ArrayList<Integer> keys         = new ArrayList<>(A.length);
