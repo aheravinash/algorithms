@@ -75,7 +75,33 @@ public class ArrayClass{
         return pairs;
     }
     /* function pairSum : find number of pairs in an array that sum to k */
-    /* function pairSum3 : Create frequency map and sorted list of keys; O(nlogn) time in worst case; O(n) time in best case */
+    /* function pairSum4 : create frequency map; iterate over array elements and find the counterpart */
+    /*                      O(n) time; O(n) space */
+    public static int pairSum4(int[] A, int k){
+        if(A.length < 2) return 0;
+        HashMap<Integer, Integer> map = createFrequencyMapOfArrayElements(A);
+        int pairs = 0;
+        for(int i = 0; i < A.length; i++){
+            int key = A[i],
+            if(map.containsKey(key)){
+                int otherkey = k - key;
+                if(key == otherkey){
+                    int freq = map.get(key).intValue();
+                    pairs += freq * (freq - 1) / 2;
+                    map.remove(key);
+                }
+                else if(map.containsKey(otherkey)){
+                    pairs += map.get(key).intValue() * map.get(otherkey).intValue();
+                    map.remove(key);
+                    map.remove(otherkey);
+                }
+                else map.remove(key);
+            }
+        }
+        return pairs;
+    }
+    /* function pairSum3 : Create frequency map and sorted list of keys; apply classical pairSum algorithm */
+    /*                     O(nlogn) time in worst case; O(n) time in best case */
     public static int pairSum3(int[] A, int k){
         if(A.length < 2) return 0;
         HashMap<Integer, Integer> map   = new HashMap<>(A.length);
