@@ -14,7 +14,7 @@ public class ArrayClass{
        /* Arrays.sort(A);
         printArray(A);
        */
-        int ans = trippletSum(A, m);
+        int ans = pairSum1(A, m);
         System.out.println(ans);
     }
     /* Functions */
@@ -120,6 +120,23 @@ public class ArrayClass{
         }
         keys.sort(null);
     }
+    /* function pairSum1 : brute force; O(n^2) time */
+    public static int pairSum1(int[] A, int k){
+        int elem,
+            n = A.length,
+            nm1 = n - 1,
+            pairs = 0;
+        for(int i = 0; i < nm1; i++){
+            elem = A[i];
+            for(int j = i + 1; j < n; j++){
+                if(elem + A[j] == k){
+                    pairs++;
+                }
+            }
+        }
+        return pairs;
+    }
+    /* pairSum varients end */
     /* function arrayUnion : find union of two arrays */
     public static ArrayList<Integer> arrayUnion(int[] A, int[] B){
         HashMap<Integer, Integer> map   = new HashMap<>(A.length + B.length);
