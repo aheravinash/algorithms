@@ -18,38 +18,38 @@ public class ArrayClass{
         System.out.println(ans);
     }
     /* Functions */
-    /* function trippletSum : find number of tripplets in an array that sum to k */
-    public static int trippletSum(int[] A, int k){
+    /* function tripletSum : find number of triplets in an array that sum to k */
+    public static int tripletSum(int[] A, int k){
         if(A.length < 3) return 0;
         HashMap<Integer, Integer> map   = new HashMap<>(A.length);
         ArrayList<Integer> keys         = new ArrayList<>(A.length);
         createFrequencyMapAndSortedListOfKeys(A, map, keys);
         int lo          = 0,
             hi          = keys.size() - 1,
-            tripplets   = 0;
+            triplets   = 0;
         while(lo < hi){
             int lokey   = keys.get(lo++).intValue(),
                 freq    = map.get(lokey).intValue();
             if(3 * lokey == k){
-                tripplets   += freq * (freq - 1) * (freq - 2) / 6;
+                triplets   += freq * (freq - 1) * (freq - 2) / 6;
             }
             else{
-                tripplets   += freq * pairSumHelperToTrippletSum(map, keys, lo, hi, k - lokey);
+                triplets   += freq * pairSumHelperToTripletSum(map, keys, lo, hi, k - lokey);
                 int newKey  = k - 2 * lokey;
                 if(newKey > lokey && map.containsKey(newKey)){
-                    tripplets += (freq * (freq - 1) / 2) * map.get(newKey).intValue();
+                    triplets += (freq * (freq - 1) / 2) * map.get(newKey).intValue();
                 }
             }
         }
         int hikey = keys.get(hi).intValue();
         if(3 * hikey == k){
             int freq = map.get(hikey).intValue();
-            tripplets += freq * (freq - 1) * (freq - 2) / 6;
+            triplets += freq * (freq - 1) * (freq - 2) / 6;
         }
-        return tripplets;
+        return triplets;
     }
-    /* function pairSumHelperToTrippletSum */
-    public static int pairSumHelperToTrippletSum(HashMap<Integer, Integer> map, ArrayList<Integer> keys, int lo, int hi, int k){
+    /* function pairSumHelperToTripletSum */
+    public static int pairSumHelperToTripletSum(HashMap<Integer, Integer> map, ArrayList<Integer> keys, int lo, int hi, int k){
         int lokey   = keys.get(lo).intValue(),
             hikey   = keys.get(hi).intValue(),
             sum     = lokey + hikey,
@@ -74,6 +74,27 @@ public class ArrayClass{
         }
         return pairs;
     }
+    /* function tripletsum1 : nested loops; brute force; O(n^3) time */
+    public static int tripletSum1(int[] A, int k){
+        if(A.length < 3) return 0;
+        int n   = A.length,
+            nm1 = n - 1,
+            nm2 = n - 2,
+            triplets = 0;
+        for(int i = 0; i < nm2; i++){
+            int key1 = A[i];
+            for(int j = i + 1; j < nm1; j++){
+                int key2 = A[j];
+                for(int l = j + 1; l < n; l++){
+                    if(key1 + key2 + A[l] == k){
+                        triplets++;
+                    }
+                }
+            }
+        }
+        return triplets;
+    }
+    /* triplet sum end */
     /* function pairSum : find number of pairs in an array that sum to k */
     /* function pairSum4 : create frequency map; iterate over array elements and find the counterpart */
     /*                      O(n) time; O(n) space */
@@ -195,7 +216,7 @@ public class ArrayClass{
         }
         return pairs;
     }
-    /* function pairSum1 : brute force; O(n^2) time */
+    /* function pairSum1 : nested loops; brute force; O(n^2) time */
     public static int pairSum1(int[] A, int k){
         int elem,
             n = A.length,
