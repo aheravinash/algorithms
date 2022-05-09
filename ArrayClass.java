@@ -14,7 +14,7 @@ public class ArrayClass{
        /* Arrays.sort(A);
         printArray(A);
        */
-        int ans = pairSum1(A, m);
+        int ans = pairSum2(A, m);
         System.out.println(ans);
     }
     /* Functions */
@@ -119,6 +119,54 @@ public class ArrayClass{
             }
         }
         keys.sort(null);
+    }
+    /* function pairSum2 : use sorting; O(nlogn) time */
+    public static int pairSum2(int[] A, int k){
+        Arrays.sort(A);
+        int lo      = 0,
+            hi      = A.length - 1,
+            lokey   = A[lo],
+            hikey   = A[hi],
+            sum     = lokey + hikey,
+            pairs   = 0;
+        while(lo < hi){
+            if(sum == k){
+                if(lokey == hikey){
+                    int freq = hi - lo + 1;
+                    pairs += freq * ( freq - 1) / 2;
+                    break;
+                }
+                lo++;
+                int nextkey = A[lo],
+                    lofreq  = 1,
+                    hifreq  = 1;
+                while(nextkey == lokey){
+                    lofreq++;
+                    lo++;
+                    nextkey = A[lo];
+                }
+                lokey = nextkey;
+                hi--;
+                nextkey = A[hi];
+                while(nextkey == hikey){
+                    hifreq++;
+                    hi--;
+                    nextkey = A[hi];
+                }
+                hikey = nextkey;
+                pairs += lofreq * hifreq;
+            }
+            else if(sum < k){
+                lo++;
+                lokey = A[lo];
+            }
+            else{
+                hi--;
+                hikey = A[hi];
+            }
+            sum = lokey + hikey;
+        }
+        return pairs;
     }
     /* function pairSum1 : brute force; O(n^2) time */
     public static int pairSum1(int[] A, int k){
