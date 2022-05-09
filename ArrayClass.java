@@ -19,6 +19,7 @@ public class ArrayClass{
     }
     /* Functions */
     /* function tripletSum : find number of triplets in an array that sum to k */
+    /* function tripletSum2 : O(n^2logn) time; O(n) space; takes help of pairSum */
     public static int tripletSum(int[] A, int k){
         if(A.length < 3) return 0;
         HashMap<Integer, Integer> map   = new HashMap<>(A.length);
