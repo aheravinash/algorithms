@@ -5,22 +5,54 @@ public class ArrayClass{
     public static void main(String[] args){
         int n = scanner.nextInt();
         int[] A = takeArrayInput(n);
-        int m = scanner.nextInt();
+        sort01(A);
        /* int[] B = takeArrayInput(m);
         scanner.close();
         ArrayList<Integer> ans = arrayUnion(A, B);
         printArrayList(ans);
        */
-       /* Arrays.sort(A);
+       /* Arrays.sort(A); */
         printArray(A);
-       */
-        int ans = pairSum2(A, m);
+       /* int ans = pairSum4(A, m);
         System.out.println(ans);
+        */
     }
     /* Functions */
+    /* function sort01 : sort an array of only zeros and ones */
+    public static void sort01(int[] A){
+        if(A.length < 2) return;
+        int lo = 0,
+            hi = A.length - 1,
+            lokey = A[lo],
+            hikey = A[hi];
+        while(lo < hi){
+            if(lokey == 0){         // lo = 0; incr lo
+                lo++;
+                lokey = A[lo];
+                if(hikey == 1){     // lo = 0, hi = 1; incr lo and decr hi
+                    hi--;
+                    hikey = A[hi];
+                }
+            }
+            else{                   // lo = 1
+                if(hikey == 1){     // lo = 1, hi = 1; keep lo and decr hi
+                    hi--;
+                    hikey = A[hi];
+                }
+                else{               // lo = 1, hi = 0; swap
+                    A[lo] = 0;
+                    A[hi] = 1;
+                    lo++;
+                    hi--;
+                    lokey = A[lo];
+                    hikey = A[hi];
+                }
+            }
+        }
+    }
     /* function tripletSum : find number of triplets in an array that sum to k */
-    /* function tripletSum2 : O(n^2logn) time; O(n) space; takes help of pairSum */
-    public static int tripletSum(int[] A, int k){
+    /* function tripletSum2 : O(n^2) time; O(n) space; takes help of pairSum */
+    public static int tripletSum2(int[] A, int k){
         if(A.length < 3) return 0;
         HashMap<Integer, Integer> map   = new HashMap<>(A.length);
         ArrayList<Integer> keys         = new ArrayList<>(A.length);
@@ -104,7 +136,7 @@ public class ArrayClass{
         HashMap<Integer, Integer> map = createFrequencyMapOfArrayElements(A);
         int pairs = 0;
         for(int i = 0; i < A.length; i++){
-            int key = A[i],
+            int key = A[i];
             if(map.containsKey(key)){
                 int otherkey = k - key;
                 if(key == otherkey){
